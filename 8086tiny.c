@@ -260,12 +260,18 @@ int main(int argc, char **argv)
 {
 #ifndef NO_GRAPHICS
 	// Initialise SDL
-	SDL_Init(SDL_INIT_AUDIO);
+	SDL_Init( SDL_INIT_VIDEO
+#ifndef NO_SOUND
+      | SDL_INIT_AUDIO
+#endif /* NO_SOUND */
+   );
+#ifndef NO_SOUND
 	sdl_audio.callback = audio_callback;
 #ifdef _WIN32
 	sdl_audio.samples = 512;
 #endif
 	SDL_OpenAudio(&sdl_audio, 0);
+#endif /* NO_SOUND */
 #endif
 
 	// regs16 and reg8 point to F000:0, the start of memory-mapped registers. CS is initialised to F000
